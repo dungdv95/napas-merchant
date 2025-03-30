@@ -10,10 +10,28 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { CircleUser, LockKeyhole } from "lucide-react";
-import { useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { Suspense, useEffect, useState } from "react";
 
 export default function Page() {
-  const [open, setOpen] = useState(true);
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <MainPage />
+    </Suspense>
+  );
+}
+
+function MainPage() {
+  const [open, setOpen] = useState(false);
+  const router = useRouter();
+  const status = useSearchParams().get("status");
+
+  useEffect(() => {
+    if (status) {
+      setOpen(true);
+    }
+  }, [status]);
+
   return (
     <>
       <div className="mt-20 mx-4 bg-white rounded-2xl px-6 py-8">
@@ -47,6 +65,7 @@ export default function Page() {
           <Button
             variant={"default"}
             className="h-11 bg-[#FFC709] hover:bg-[#FFC709]/80 text-[#1B1D29] font-semibold text-base"
+            onClick={() => router.push("/term")}
           >
             Đăng nhập
           </Button>
@@ -71,6 +90,7 @@ export default function Page() {
             <Button
               variant={"default"}
               className="h-11 bg-[#FFC709] hover:bg-[#FFC709]/80 text-[#1B1D29] font-semibold text-base"
+              onClick={() => setOpen(false)}
             >
               Thử lại
             </Button>

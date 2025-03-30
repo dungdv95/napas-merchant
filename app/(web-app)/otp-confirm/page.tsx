@@ -5,7 +5,8 @@ import {
   InputOTPGroup,
   InputOTPSlot,
 } from "@/components/ui/input-otp";
-import { useEffect, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { Suspense, useEffect, useState } from "react";
 
 export default function Page() {
   return (
@@ -21,7 +22,9 @@ export default function Page() {
         <span className="text-[#82869E] text-base">
           Bạn vui lòng nhập mã để tiếp tục.
         </span>
-        <OtpConfirm />
+        <Suspense fallback={<div>Loading...</div>}>
+          <OtpConfirm />
+        </Suspense>
       </div>
     </div>
   );
@@ -30,6 +33,8 @@ export default function Page() {
 function OtpConfirm() {
   const [timeOtp, setTimeOtp] = useState(60);
   const [otp, setOtp] = useState("");
+  const router = useRouter();
+  const type = useSearchParams().get("type");
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -39,6 +44,16 @@ function OtpConfirm() {
     }, 1000);
     return () => clearInterval(interval);
   }, [timeOtp]);
+
+  useEffect(() => {
+    if (otp.length === 6) {
+      if (type === "link-account") {
+        router.push("/link-account?status=failure");
+      } else {
+        router.push("/transfer-money/status?status=success");
+      }
+    }
+  }, [otp]);
 
   return (
     <div className="flex flex-col gap-8 items-center">

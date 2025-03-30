@@ -3,6 +3,7 @@
 import { Icons } from "@/components/icons/icons";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 type AccountProps = {
@@ -31,6 +32,7 @@ const accounts: AccountProps[] = [
 
 export default function SelectAccount() {
   const [selected, setSelected] = useState<AccountProps>(accounts[0]);
+  const router = useRouter();
 
   return (
     <div className="h-full mt-12 mb-6 mx-4 flex flex-col justify-between">
@@ -61,6 +63,7 @@ export default function SelectAccount() {
       <Button
         variant={"default"}
         className="h-11 bg-[#FFC709] hover:bg-[#FFC709]/80 text-[#1B1D29] font-semibold text-base"
+        onClick={() => router.push("/otp-confirm?type=link-account")}
       >
         Đăng nhập
       </Button>

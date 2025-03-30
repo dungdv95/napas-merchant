@@ -1,10 +1,19 @@
 "use client";
 
 import { Icons } from "@/components/icons/icons";
-import { useState } from "react";
+import { useSearchParams } from "next/navigation";
+import { Suspense, useState } from "react";
 
-export default function StatusTransMoney() {
-  const [status, setStatus] = useState("success");
+export default function Page() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <StatusTransMoney />
+    </Suspense>
+  );
+}
+
+function StatusTransMoney() {
+  const status = useSearchParams().get("status");
   return (
     <div className="h-full px-4 flex justify-center items-center">
       <div className="flex flex-col gap-4 items-center">
@@ -26,7 +35,7 @@ function Success() {
           <span>Bạn đã chuyển tiền thành công tới</span>
           <span>PHAM VAN DANG</span>
         </div>
-        <div className="flex gap-1">
+        <div className="flex gap-1 justify-center">
           <span className="text-[#868C96]">Thời gian:</span>
           <span className="text-[#3D4657]">16:20 - 20/05/2023</span>
         </div>

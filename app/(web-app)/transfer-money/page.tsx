@@ -1,8 +1,10 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
 
 export default function Page() {
+  const router = useRouter();
   return (
     <div className="h-full px-4 py-6 flex flex-col gap-5">
       <div className="flex flex-col gap-4">
@@ -75,6 +77,7 @@ export default function Page() {
         <Button
           variant={"default"}
           className="h-11 w-1/2 bg-[#FFC709] hover:bg-[#FFC709]/80 text-[#1B1D29] font-semibold text-base"
+          onClick={() => router.push("/otp-confirm?type=transfer")}
         >
           Xác nhận
         </Button>
